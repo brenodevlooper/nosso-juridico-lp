@@ -99,9 +99,13 @@ p{margin:0}
 
 /* header */
 .top{position:sticky;top:0;z-index:50;background:rgba(11,27,43,.86);backdrop-filter:saturate(1.4) blur(14px);-webkit-backdrop-filter:saturate(1.4) blur(14px);border-bottom:1px solid var(--line-dark);color:var(--white)}
-.top .wrap{display:flex;align-items:center;justify-content:space-between;height:72px;gap:24px}
+.top{transition:background .3s,box-shadow .3s}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;height:72px;gap:24px;transition:height .3s cubic-bezier(.2,.7,.2,1)}
+.top.scrolled{background:rgba(11,27,43,.96);box-shadow:0 10px 30px -18px rgba(0,0,0,.6)}
+.top.scrolled .wrap{height:58px}
+.top.scrolled .brand img{height:32px}
 .brand{display:flex;align-items:center;gap:12px;text-decoration:none}
-.brand img{height:40px;width:auto}
+.brand img{height:40px;width:auto;transition:height .3s cubic-bezier(.2,.7,.2,1)}
 .brand span{font-weight:600;font-size:15px;line-height:1.15}
 .brand small{display:block;font-weight:400;font-size:12px;color:var(--muted-dark)}
 .nav{display:flex;gap:28px;font-size:15px}
@@ -150,7 +154,7 @@ section{scroll-margin-top:80px}
 /* seletor de casos */
 .picker{background:var(--white);border:1px solid var(--line);border-radius:28px;padding:36px;box-shadow:0 30px 80px -50px rgba(11,27,43,.35)}
 .tabs{display:flex;flex-wrap:wrap;gap:8px;background:var(--paper);padding:6px;border-radius:999px;width:fit-content;max-width:100%}
-.tab{font:600 15px/1 var(--sans);padding:14px 20px;border-radius:999px;border:0;background:transparent;color:var(--muted);cursor:pointer;transition:background .2s,color .2s}
+.tab{font:600 15px/1 var(--sans);padding:14px 18px;white-space:nowrap;border-radius:999px;border:0;background:transparent;color:var(--muted);cursor:pointer;transition:background .2s,color .2s}
 .tab[aria-selected="true"]{background:var(--ink);color:var(--white)}
 .picker-hint{margin:26px 0 18px;color:var(--muted);font-size:15px}
 .chips{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
@@ -163,6 +167,35 @@ section{scroll-margin-top:80px}
 .chip:has(input:checked) .box{background:var(--cyan);border-color:var(--cyan)}
 .chip:has(input:checked) .box svg{opacity:1}
 .chip:has(input:focus-visible){outline:3px solid var(--cyan);outline-offset:2px}
+.picker-grid{display:grid;grid-template-columns:1fr 340px;grid-template-areas:"main preview" "foot foot";gap:0 36px}
+.picker-main{grid-area:main;min-width:0}
+.picker-foot{grid-area:foot}
+.chip input:checked + .box{animation:pop .38s cubic-bezier(.3,1.6,.5,1)}
+@keyframes pop{0%{transform:scale(.6)}100%{transform:scale(1)}}
+
+/* prévia da mensagem no WhatsApp */
+.preview{grid-area:preview;align-self:start;position:sticky;top:96px;margin-top:4px;border-radius:22px;overflow:hidden;background:#E9E3DA;border:1px solid var(--line);box-shadow:0 24px 60px -36px rgba(11,27,43,.5)}
+.pv-head{display:flex;align-items:center;gap:12px;background:#0F2A3F;color:#fff;padding:14px 16px}
+.pv-head img{width:38px;height:38px;border-radius:50%;object-fit:cover;object-position:top;background:var(--paper-2)}
+.pv-head b{display:block;font-size:14.5px;line-height:1.2}
+.pv-head span{font-size:12.5px;color:var(--muted-dark)}
+.pv-body{min-height:300px;padding:20px 14px 18px;display:flex;flex-direction:column;justify-content:flex-end;background:#E9E3DA radial-gradient(rgba(11,27,43,.05) 1px,transparent 1px) 0 0/14px 14px}
+.pv-label{align-self:center;font-size:11.5px;color:var(--muted);background:rgba(255,255,255,.7);padding:4px 10px;border-radius:8px;margin-bottom:14px}
+.bubble{align-self:flex-end;max-width:92%;background:#D8F8C8;color:#0B1B2B;border-radius:14px 4px 14px 14px;padding:10px 12px 8px;font-size:14.5px;line-height:1.45;box-shadow:0 1px 1px rgba(0,0,0,.08);transform-origin:100% 0}
+.bubble.bump{animation:bump .4s cubic-bezier(.3,1.5,.5,1)}
+@keyframes bump{0%{transform:scale(.96)}100%{transform:scale(1)}}
+.bubble ul{margin:6px 0 0;padding:0;list-style:none}
+.bubble li{padding-left:12px;position:relative}
+.bubble li::before{content:"-";position:absolute;left:0}
+.bubble li.new{animation:lineIn .45s cubic-bezier(.2,.7,.2,1)}
+@keyframes lineIn{from{opacity:0;transform:translateX(10px)}to{opacity:1;transform:none}}
+.bubble small{display:block;text-align:right;font-size:11px;color:#5B6B5A;margin-top:4px}
+.pv-hint{text-align:center;font-size:12.5px;color:var(--muted);margin-top:12px}
+.picker-foot .btn.ready{animation:ready 1.6s ease-out}
+@keyframes ready{0%{box-shadow:0 0 0 0 rgba(0,175,239,.55)}70%{box-shadow:0 0 0 16px rgba(0,175,239,0)}100%{box-shadow:0 10px 30px -10px rgba(0,175,239,.7)}}
+#pick-count strong{display:inline-block}
+#pick-count.tick strong{animation:bump .4s cubic-bezier(.3,1.5,.5,1)}
+
 .picker-foot{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:18px;margin-top:28px;padding-top:26px;border-top:1px solid var(--line)}
 .picker-foot p{font-size:15px;color:var(--muted)}
 .picker-foot strong{color:var(--ink)}
@@ -206,7 +239,7 @@ section{scroll-margin-top:80px}
 .faq summary::-webkit-details-marker{display:none}
 .faq summary::after{content:"+";font-family:var(--sans);font-weight:300;font-size:30px;color:var(--cyan-text);transition:transform .25s;flex:none}
 .faq details[open] summary::after{transform:rotate(45deg)}
-.faq .ans{padding:0 0 26px;color:var(--muted);font-size:16.5px;max-width:740px}
+.faq .ans{overflow:hidden;padding:0 0 26px;color:var(--muted);font-size:16.5px;max-width:740px}
 .faq .ans p+p{margin-top:12px}
 .disclaimer{margin-top:28px;font-size:13.5px;color:var(--muted)}
 
@@ -233,13 +266,51 @@ footer a:hover{color:var(--white)}
 /* barra fixa mobile */
 .mbar{display:none}
 
-/* animação de entrada */
+/* entrada do hero em sequência */
+@keyframes heroIn{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:none}}
+@keyframes photoIn{from{opacity:0;transform:translateY(60px) scale(.97)}to{opacity:1;transform:none}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.hero-copy>*{animation:heroIn .9s cubic-bezier(.2,.7,.2,1) both}
+.hero-copy>:nth-child(1){animation-delay:.05s}
+.hero-copy>:nth-child(2){animation-delay:.15s}
+.hero-copy>:nth-child(3){animation-delay:.3s}
+.hero-copy>:nth-child(4){animation-delay:.42s}
+.hero-copy>:nth-child(5){animation-delay:.55s}
+.hero-photos .p1{animation:photoIn 1.1s .25s cubic-bezier(.2,.7,.2,1) both}
+.hero-photos .p2{animation:photoIn 1.1s .45s cubic-bezier(.2,.7,.2,1) both}
+.hero-photos figcaption{animation:heroIn .7s 1.1s cubic-bezier(.2,.7,.2,1) both}
+.hero::before{animation:fadeIn 1.6s ease both}
+
+/* hover (só em quem tem mouse) */
+@media (hover:hover){
+  .svc svg{transition:transform .35s cubic-bezier(.3,1.5,.5,1)}
+  .svc:hover svg{transform:translateY(-4px) scale(1.12)}
+  .svc h3{transition:color .25s}
+  .svc:hover h3{color:var(--cyan)}
+  .person,.steps li{transition:transform .35s cubic-bezier(.2,.7,.2,1),box-shadow .35s}
+  .person:hover,.steps li:hover{transform:translateY(-4px);box-shadow:0 28px 60px -36px rgba(11,27,43,.45)}
+  .person img{transition:transform .6s cubic-bezier(.2,.7,.2,1)}
+  .person:hover img{transform:scale(1.03)}
+}
+
+/* revelar ao rolar */
 .rv{opacity:0;transform:translateY(22px);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1)}
 .rv.in{opacity:1;transform:none}
+.services.rv .svc,.steps.rv li{opacity:0;transform:translateY(18px);transition:opacity .7s,transform .7s cubic-bezier(.2,.7,.2,1)}
+.services.rv.in .svc,.steps.rv.in li{opacity:1;transform:none}
+.services .svc:nth-child(2),.steps li:nth-child(2){transition-delay:.08s}
+.services .svc:nth-child(3),.steps li:nth-child(3){transition-delay:.16s}
+.services .svc:nth-child(4){transition-delay:.24s}
+.services .svc:nth-child(5){transition-delay:.32s}
+.services .svc:nth-child(6){transition-delay:.4s}
+
+/* reduzir movimento: tira deslocamento, mantém luz e opacidade */
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
-  .rv{transform:none;transition:opacity .6s}
-  .btn:hover{transform:none}
+  .rv,.services.rv .svc,.steps.rv li{transform:none}
+  .hero-copy>*,.hero-photos .p1,.hero-photos .p2,.hero-photos figcaption{animation-name:fadeIn}
+  .chip input:checked + .box,.bubble.bump,.bubble li.new,#pick-count.tick strong{animation:none}
+  .btn:hover,.person:hover,.steps li:hover,.svc:hover svg,.person:hover img{transform:none}
 }
 
 @media (max-width:980px){
@@ -249,6 +320,8 @@ footer a:hover{color:var(--white)}
   .hero-photos{height:420px;max-width:520px;width:100%;margin:0 auto}
   .services{grid-template-columns:1fr 1fr}
   .steps{grid-template-columns:1fr}
+  .picker-grid{grid-template-columns:1fr;grid-template-areas:"main" "preview" "foot"}
+  .preview{position:static;margin-top:24px}
   .team{grid-template-columns:1fr}
   footer .wrap{grid-template-columns:1fr 1fr}
 }
@@ -272,6 +345,7 @@ footer a:hover{color:var(--white)}
   .tabs{border-radius:16px;width:100%}
   .tab{flex:1 1 auto;padding:12px 14px;font-size:14px}
   .chips{grid-template-columns:1fr}
+  .pv-body{min-height:0}
   .picker-foot .btn{width:100%}
   .services{grid-template-columns:1fr}
   .svc{padding:30px 24px}
@@ -361,9 +435,11 @@ footer a:hover{color:var(--white)}
     </div>
 
     <div class="picker rv">
+     <div class="picker-grid">
+      <div class="picker-main">
       <div class="tabs" role="tablist" aria-label="Seu perfil">
-        <button class="tab" role="tab" id="t-sind" aria-controls="p-sind" aria-selected="true">Sou síndico(a) ou conselho</button>
-        <button class="tab" role="tab" id="t-cond" aria-controls="p-cond" aria-selected="false" tabindex="-1">Sou condômino ou morador</button>
+        <button class="tab" role="tab" id="t-sind" aria-controls="p-sind" aria-selected="true">Síndico ou conselho</button>
+        <button class="tab" role="tab" id="t-cond" aria-controls="p-cond" aria-selected="false" tabindex="-1">Condômino ou morador</button>
         <button class="tab" role="tab" id="t-emp" aria-controls="p-emp" aria-selected="false" tabindex="-1">Administradora ou construtora</button>
       </div>
 
@@ -411,12 +487,26 @@ footer a:hover{color:var(--white)}
         </fieldset>
       </div>
 
+      </div>
+
+      <aside class="preview" aria-hidden="true">
+        <div class="pv-head">
+          <img src="img/cirelle.webp" alt="" width="38" height="38" loading="lazy">
+          <div><b>Alves &amp; Monaco</b><span>Direito Condominial</span></div>
+        </div>
+        <div class="pv-body">
+          <span class="pv-label">Sua mensagem vai assim</span>
+          <div class="bubble" id="pv-bubble"><p id="pv-intro"></p><ul id="pv-list"></ul><small>agora ✓✓</small></div>
+        </div>
+      </aside>
+
       <div class="picker-foot">
         <p id="pick-count" aria-live="polite"><strong>Nenhum tema marcado.</strong> Você também pode enviar só uma mensagem.</p>
         <a class="btn btn-wa" id="pick-send" href="https://wa.me/558005900314" target="_blank" rel="noopener" data-wa="seletor">
           <svg aria-hidden="true"><use href="#i-wa"/></svg>Enviar para um especialista
         </a>
       </div>
+     </div>
     </div>
   </div>
 </section>
@@ -647,16 +737,36 @@ footer a:hover{color:var(--white)}
   // monta a mensagem do WhatsApp com os temas marcados no perfil ativo
   var send = document.getElementById('pick-send');
   var count = document.getElementById('pick-count');
+  var bubble = document.getElementById('pv-bubble');
+  var pvIntro = document.getElementById('pv-intro');
+  var pvList = document.getElementById('pv-list');
+  var prev = [], first = true;
+  function replay(el, cls){ el.classList.remove(cls); void el.offsetWidth; el.classList.add(cls); }
   function update(){
     var panel = document.querySelector('.panel:not([hidden])');
     var picked = [].slice.call(panel.querySelectorAll('input:checked')).map(function(i){ return i.value; });
-    var msg = 'Olá! ' + panel.dataset.perfil + '.';
-    if (picked.length) msg += ' Preciso de ajuda com:\n- ' + picked.join('\n- ');
-    else msg += ' Gostaria de falar com um especialista.';
+    var intro = 'Olá! ' + panel.dataset.perfil + '.' + (picked.length ? ' Preciso de ajuda com:' : ' Gostaria de falar com um especialista.');
+    var msg = intro + (picked.length ? '\n- ' + picked.join('\n- ') : '');
     send.href = 'https://wa.me/' + WA + '?text=' + encodeURIComponent(msg);
     count.innerHTML = picked.length
       ? '<strong>' + picked.length + (picked.length > 1 ? ' temas marcados.' : ' tema marcado.') + '</strong> A mensagem já vai pronta.'
       : '<strong>Nenhum tema marcado.</strong> Você também pode enviar só uma mensagem.';
+
+    // prévia: só a linha nova entra animada
+    pvIntro.textContent = intro;
+    pvList.innerHTML = '';
+    picked.forEach(function(v){
+      var li = document.createElement('li');
+      li.textContent = v;
+      if (prev.indexOf(v) === -1 && !first) li.className = 'new';
+      pvList.appendChild(li);
+    });
+    if (!first){
+      replay(bubble, 'bump');
+      replay(count, 'tick');
+      if (picked.length > prev.length) replay(send, 'ready');
+    }
+    prev = picked; first = false;
   }
   document.querySelectorAll('.chip input').forEach(function(i){ i.addEventListener('change', update); });
   update();
@@ -676,10 +786,36 @@ footer a:hover{color:var(--white)}
     var vis = {};
     var bo = new IntersectionObserver(function(es){
       es.forEach(function(e){ vis[e.target.id] = e.isIntersecting; });
-      bar.classList.toggle('hide', !!(vis.contato || vis.topo));
+      bar.classList.toggle('hide', !!(vis.contato || vis.topo || vis['pick-send']));
     });
-    bo.observe(fin); bo.observe(hero);
+    bo.observe(fin); bo.observe(hero); bo.observe(send);
   }
+
+  // cabeçalho encolhe ao rolar
+  var top = document.querySelector('.top'), ticking = false;
+  function onScroll(){ top.classList.toggle('scrolled', window.scrollY > 40); ticking = false; }
+  window.addEventListener('scroll', function(){ if (!ticking){ ticking = true; requestAnimationFrame(onScroll); } }, {passive:true});
+  onScroll();
+
+  // FAQ abre e fecha suave
+  var calm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  document.querySelectorAll('.faq details').forEach(function(d){
+    var s = d.querySelector('summary'), a = d.querySelector('.ans'), anim = null;
+    if (!a.animate) return;
+    s.addEventListener('click', function(e){
+      e.preventDefault();
+      if (anim) anim.cancel();
+      var opening = !d.open, dur = calm ? 1 : 380;
+      if (opening) d.open = true;
+      var h = a.scrollHeight;
+      anim = a.animate(
+        opening ? [{height:'0px',opacity:0,paddingBottom:'0px'},{height:h+'px',opacity:1,paddingBottom:'26px'}]
+                : [{height:h+'px',opacity:1,paddingBottom:'26px'},{height:'0px',opacity:0,paddingBottom:'0px'}],
+        {duration:dur, easing:'cubic-bezier(.2,.7,.2,1)'}
+      );
+      anim.onfinish = function(){ if (!opening) d.open = false; anim = null; };
+    });
+  });
 
   // evento de clique no WhatsApp (fica pronto para GA4/Pixel, se forem instalados com consentimento)
   document.addEventListener('click', function(e){
